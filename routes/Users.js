@@ -4,16 +4,13 @@ const router = express.Router();
 const { isAuthenticated } = require('../Middleware');
 const mongoose = require('mongoose');
 
-router.get('/user', isAuthenticated, function (req, res) {
+router.get('/user', function (req, res) {
     res.json(req.user)
 });
 
-router.put('/user', async function (req, res) {
+router.put('/user', isAuthenticated, async function (req, res) {
     const user = await User.findById(req.user._id);
 
-    if (req.body.savedPets) {
-        user.savedPets = [...new Set(req.body.savedPets)].map(id => new mongoose.Types.ObjectId(id))
-    };
     if (req.body.firstName) {
         user.firstName = req.body.firstName
     }

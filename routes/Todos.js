@@ -7,28 +7,36 @@ const Todo = require('../models/Todo');
 router.get('/todos', isAuthenticated, async (req, res) => {
     const searchParams = {}
     searchParams.ownedBy = req.user
-    const mypets = await Pet.find(searchParams);
-    res.json(mypets);
+    const allTodos = await Todo.find(searchParams);
+    res.json(allTodos);
 })
 
 router.post('/todos', isAuthenticated, async (req, res) => {
+    const newTodo = await Todo.create({
+        note: req.body.note,
+        ownedBy: req.user
+    })
+
+    res.json(newTodo)
 })
 
 router.delete('/todos/:id', isAuthenticated, async (req, res) => {
-    Todo.findByIdAndDelete(req.params.id)
+    const { id } = req.params
+    await Todo.findByIdAndDelete(id)
     res.end();
 })
 
 router.put('/todos/:id', isAuthenticated, async (req, res) => {
-    const todos = await Todo.findById(req.params.id);
+    const { id } = req.params
+    const todo = await Todo.findById(id);
 
     if (req.body.note) {
-        user.note = req.body.note
+        todo.note = req.body.note
     }
 
-    await todos.save();
+    await todo.save();
 
-    res.json(todos);
+    res.json(todo);
 })
 
 module.exports = router;
