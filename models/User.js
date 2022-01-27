@@ -7,7 +7,6 @@ const db = require('../db');
 const TodoUserSchema = new mongoose.Schema({
     firstName: String,
     lastName: String,
-    phone: String,
     username: String,
 });
 // Export Model

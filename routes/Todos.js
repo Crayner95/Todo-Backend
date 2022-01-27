@@ -33,10 +33,13 @@ router.put('/todos/:id', isAuthenticated, async (req, res) => {
     if (req.body.note) {
         todo.note = req.body.note
     }
+    todo.isChecked = req.body.isChecked
+
 
     await todo.save();
 
     res.json(todo);
 })
+
 
 module.exports = router;
