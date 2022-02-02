@@ -8,28 +8,5 @@ router.get('/user', function (req, res) {
     res.json(req.user)
 });
 
-router.put('/user', isAuthenticated, async function (req, res) {
-    const user = await User.findById(req.user._id);
-
-    if (req.body.firstName) {
-        user.firstName = req.body.firstName
-    }
-    if (req.body.lastName) {
-        user.lastName = req.body.lastName
-    }
-    if (req.body.username) {
-        user.username = req.body.username
-    }
-    if (req.body.password) {
-        await user.setPassword(req.body.password);
-        await user.save();
-    }
-    if (req.body.bio) {
-        user.bio = req.body.bio
-    }
-    await user.save();
-
-    res.json(user);
-});
 
 module.exports = router;

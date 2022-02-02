@@ -30,10 +30,12 @@ router.put('/todos/:id', isAuthenticated, async (req, res) => {
     const { id } = req.params
     const todo = await Todo.findById(id);
 
-    if (req.body.note) {
+    if ("note" in req.body) {
         todo.note = req.body.note
     }
-    todo.isChecked = req.body.isChecked
+    if ("isChecked" in req.body) {
+        todo.isChecked = req.body.isChecked
+    }
 
 
     await todo.save();
